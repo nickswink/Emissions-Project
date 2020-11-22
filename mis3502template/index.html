@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>MIS3502 Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Chart references-->
+    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+    <!--CUSTOM FONT-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600&display=swap" rel="stylesheet">
+    <!-- Bootstrap 4 References -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!-- Link to FontAwesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/app.css">
+    <!-- Your custom JavaScript -->
+    <script src="js/app.js"></script>
+
+    <!-- Link to image for the favicon -->
+    <link rel="icon" href="images/earth.png">
+</head>
+
+<body>
+
+<!-- Top Navigation Bar -->
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
+    <!-- Logo -->
+      <a class ="navbar-brand nav-link" href="#div-splash" id="btnSplash">
+          <img alt="Earth Icon" src="images/earth.png" style="width:40px;">
+          &nbsp;&nbsp;Carbon Co
+      </a>
+
+    <!-- Toggler Icon for responsiveness -->
+    <button id="toggle-icon" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <!--Menu sets on the left -->
+        <ul class="navbar-nav mr-auto">
+        </ul>
+    <!--Menu sets on the right -->
+    <!--Each individual item can be secured by adding the class: secured -->
+        <ul class="navbar-nav ml-auto">
+                <li class="nav-item secured">
+                    <a class="nav-link" href="#div-aboutus"><i class="fa fa-home"></i> About Us </a>
+                </li>
+                <li class="nav-item secured">
+                    <a class="nav-link" href="#div-calc"><i class="fa fa-calculator"></i> Calculator </a>
+                </li>
+                <li class="nav-item secured">
+                    <a class="nav-link" href="#div-tips"><i class="fa fa-link"></i> Tips of the day! </a>
+                </li>
+                <li class="nav-item secured">
+                    <a class="nav-link" href="#div-login"><i class="fa fa-sign-out"></i>Logout</a>
+                </li>
+        </ul>
+    </div>
+</nav>
+
+<br><br><br><br>
+
+<!--Start container for BS4 (Bootstrap 4) formatting-->
+<div class="container-fluid">
+
+    <div class="row text-center">
+        <div class="col-md-12">
+			&nbsp; <!-- place holder for additional top row content -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+            <div class="col-md-6 content-wrapper " id="div-login" style="display: none;">    
+                <form id='form-login'>
+				<label for="username">User name:</label>
+				<input type="text" name="username" id="username" class="form-control" >
+				<label for="password">Password:</label>
+                <input type="password" name="password" id="password" class="form-control" >
+                <br>
+				<div class="text-center">
+				<input type="button" value="Login" name="btnLogin" id="btnLogin" class="btn btn-primary" style="font-size:2em;width:20%;" >
+                </div>
+                <br>
+                <div id='login_message' class="alert alert-danger text-center" style="display:none;">
+                </div>
+                </form>
+            </div>
+
+          <!--spacer-->
+        <div class="col-md-1"></div>
+
+        <div class="col-md-2 content-wrapper" id="div-loginSideBar" style="display: none;">
+            <h3>Why Calculate?</h3>
+            <!--PUT CALCULATE SAVING INFORMATION HERE-->
+            <div class="row">
+                <p>
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+                The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', 
+                making it look like readable English. as a more-or-less normal d content of a page when looking at its layo
+                </p>
+            </div>
+        </div>
+        
+        
+        <div class="col-md-12 content-wrapper " id="div-splash"  style="display: none;">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <!--    View your footprint Graph area   -->
+                    
+                    <div class="col-md-5" id="footprint-graph">
+                        <h2>View your footprint</h2>
+                        <div id="chart">
+                            <!--THIS WILL BE OVERWRITTEN WITH THE CHART-->
+                            <br><p>Fill out calculator to see your waste break down here...</p>
+                        </div>
+                    </div>
+
+                    <!--    Decrease your footprint information   -->
+
+                    <div class="col-md-5" class="nav-footprintLink" id="footprint-info">
+                        <h2>Decrease your footprint</h2>
+                        <button class="fa btn" id="btnTravel">Travel</button> 
+                        <button class="fa btn" id="btnHome">Home</button>
+                        <button class="fa btn" id="btnFood">Food</button>
+                        <button class="fa btn" id="btnShopping">Shopping</button>
+
+                        <div class="row">
+                            <!--PUT TRAVEL SAVING INFORMATION HERE-->
+                            <p id="travel" style="display: show;">Travel is important Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                                into electronic typesetting, remaining essentially unchanged.
+                            </p>
+                            <!--PUT HOME SAVING INFORMATION HERE-->
+                            <p id="home" style="display: none;">
+                                Home the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                                into electronic typesetting, remaining essentially unchanged.
+                            </p>
+                            <!--PUT FOOD SAVING INFORMATION HERE-->
+                            <p id="food" style="display: none;">
+                                FOOD Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                                into electronic typesetting, remaining essentially unchanged.
+                            </p>
+                            <!--PUT SHOPPING SAVING INFORMATION HERE-->
+                            <p id="shopping" style="display: none;">
+                                SHOPPING typesetting, remaining essentially unchanged. is important Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                                into electronic 
+                            </p>
+                        </div>
+                    </div>
+                    
+
+                    <!--    Leaderboard information   -->
+
+                    <div class="col-md-2" id="div-leaderboard">
+                        <h2>Leaderboard</h2>
+                        <div class="row">
+                            <div id="leaderboard">
+                                <!--leader board will populate here-->
+                            </div>
+                            <span id="leaderboard-error"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 content-wrapper " id="div-aboutus"  style="display: none;">
+            <div class="container-fluid">
+                <div class="row">
+                    <h1>ABOUT US INFORMATION</h1>
+                    <p>
+
+                    </p>
+                </div>
+                <br>
+                <!--    Paragraphs 2 side-by-side columns   -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                            into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                            and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+                            into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                            and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </div>
+                </div>
+            </div>             
+        </div>
+
+
+		<div class="col-md-8 content-wrapper " id="div-calc" style="display: none;">
+			<div>
+                <form id="calculator">
+                    <label for="display_name">Enter a display name: </label>
+                    <input type="text" id="display_name">
+                    <br>
+                    <!--HOME section-->
+                    <label for="calc-home">How many people do you live with: </label>
+                    <select id="calc-home" name="calc-home">
+                        <option value=14>0</option>
+                        <option value=12>1</option>
+                        <option value=10>2</option>
+                        <option value=8>3</option>
+                        <option value=6>4</option>
+                        <option value=4>5</option>
+                        <option value=2>more than 5</option>
+                    </select><br>
+                    <label for="calc-home2">Consider the size of your home: </label>
+                    <select id="calc-home2" name="calc-home2">
+                        <option value=10>Large house</option>
+                        <option value=7>Medium house</option>
+                        <option value=10>Small house</option>
+                        <option value=10>Apartment</option>
+                    </select><br>
+                    <!--FOOD section-->
+                    <label for="calc-food">Evaluate your food choices: </label>
+                    <select id="calc-food" name="calc-food">
+                        <option value=12>Mostly prepacked or frozen meals</option>
+                        <option value=10>Meat on daily basis</option>
+                        <option value=8>Meat a few times per week</option>
+                        <option value=6>A good mix of convenient and fresh food</option>
+                        <option value=4>Vegetarian</option>
+                        <option value=2>Vegan/ locally sourced meals</option>
+                    </select><br>
+                    <!--Shopping section-->
+                    <label for="calc-shopping">How many new pieces of furniture, electronics, or other household gadgets per year? </label>
+                    <select id="calc-shopping" name="calc-shopping">
+                        <option value=10>more than 7</option>
+                        <option value=8>5-7</option>
+                        <option value=6>3-5</option>
+                        <option value=4>less than 3</option>
+                        <option value=2>Almost none</option>
+                    </select><br>
+                    <!--TRAVEL SECTION-->
+                    <label for="calc-travel">How many miles do you travel using a personal car in a year? </label>
+                    <select id="calc-travel" name="calc-travel">
+                        <option value=12>more than 15,000</option>
+                        <option value=10>10,000-15,000</option>
+                        <option value=8>1,000-10,000</option>
+                        <option value=4>less than 1,000</option>
+                        <option value=0>Do not have a car</option>
+                    </select><br>
+                    <label for="calc-travel2">How many miles do you travel using public transportation in a year? </label>
+                    <select id="calc-travel2" name="calc-travel2">
+                        <option value=12>20,000</option>
+                        <option value=10>15,000-20,000</option>
+                        <option value=8>10,000-15,000</option>
+                        <option value=4>1,000-10,000</option>
+                        <option value=2>less than 1,000</option>
+                        <option value=0>Do not use public transportation</option>
+                    </select><br>
+                    <label for="calc-travel3">How far do you fly in a year? </label>
+                    <select id="calc-travel3" name="calc-travel3">
+                        <option value=20>To another continent</option>
+                        <option value=6>To a near by state or country</option>
+                        <option value=2>Short distances (within state)</option>
+                        <option value=0>No flights</option>
+                    </select>
+                </form>
+                <button class="btn btn-primary" id="btnCalc" type="submit" value="submit" style="width: 15%;">Calculate</button>
+                <br>
+                <br>
+                <span id="message"></span>
+            </div>
+		</div>
+		
+		<div class="col-md-12 content-wrapper" id="div-tips" style="display: none;">
+            <div class="row">
+                <div class="col-md-1"></div>
+                
+                <div class="col-md-8">
+                    <div class="tipbox">
+                        <h1>Environmental Tips of The Day</h1>
+                        <br>
+                        <div style="overflow-y:scroll; height:500px;" id="tipboard">
+                            <!--TIPS WILL POPULATE HERE-->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-2" id="div">
+                    <form id="tip-form">
+                        <label for="tip">Enter your own tip: </label> &nbsp;
+                        <input type="text" name="tip_message" id="tip_message">
+                    </form>
+                        <br><br>
+                        <button class="btn btn-primary" id="btnTip" type="submit" value="submit" style="width: 70%;">Submit</button>
+                        <br><br>
+                        <span id="tip-message"></span>
+                </div>
+            </div>
+        </div>
+
+    <div class="col-md-2"></div>
+    </div>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <div>
+            &nbsp;
+        </div>
+    </div>
+</div>
+
+</div> <!-- container //-->
+
+<br>
+    <div class="container-fluid text-black">
+        <div class="row">
+            <div class="col-md-12 text-center">
+            &copy; 2019 MIS3502
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+				&nbsp; <!-- place holder for additional footer content -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
