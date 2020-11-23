@@ -66,18 +66,30 @@ label {
   height: 200%;
 }
 
+.leaderboard-section {
+  width: 100%;
+  text-align: center;
+}
+
 .leaderboard {
-  background-color: rgb(152, 140, 255);
+  background-color: #96dbb4;
   padding: 20px;
-  font-size: large;
+  font-size: 24px;
+  border-style: outset;
+  display: inline-block;
+  width: 100%;
 }
 
 #leaderboard li {
   list-style-type: none;
 }
 
+#leaderboard h2 {
+  text-align: center;
+}
+
 #div-tips li {
-  background: #efefef;
+  background: #d4d4d4;
   border-radius: 4px;
   border-style: outset;
   font-size: 1.2rem;
@@ -89,7 +101,12 @@ label {
 }
 
 .tipbox {
-  background: #f5f5f5;
+  background: #70ce75;
   padding: 30px;
   border-style: groove;
+}
+
+.entertip {
+  border: black;
+  border-width: 4px;
 }

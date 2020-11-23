@@ -95,11 +95,11 @@ var loadLeaderboard = function () {
       for (let i = 0; i < result.length; i++) {
         console.log(result[i]);
         $("#leaderboard").append(
-          "<i class='fa fa-user'></i><li>" +
+          "<li><i class='fa fa-user'></i>&nbsp&nbsp" +
             result[i]["display_name"] +
-            " : " +
+            " " +
             result[i]["total_score"] +
-            "</li>"
+            " points</li><br>"
         );
       }
     },
