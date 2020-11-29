@@ -41,6 +41,32 @@ var terminalWrite = function (res, Output, responseStatus) {
 };
 
 // ERROR TRAPPING FOR EVENT HANDLERS GO HERE //
+
+app.put("/addlike", function (req, res, next) {
+  let tip_id = req.body.tip_id;
+  let tip_likes = req.body.tip_likes;
+
+  if (tip_id == undefined) {
+    terminalWrite(res, "Request failed. No tip id provided.", 400);
+    return;
+  }
+  if (tip_likes == undefined) {
+    terminalWrite(res, "Request failed. No tip like provided.", 400);
+    return;
+  }
+  if (isNaN(tip_id)) {
+    terminalWrite(res, "Request failed. Non-numeric tip_id provided.", 400);
+    return;
+  }
+  if (isNaN(tip_likes)) {
+    terminalWrite(res, "Request failed. Non-numeric tip_like provided.", 400);
+    return;
+  }
+  // no errors move on
+  next();
+});
+
+
 app.post("/sendtip", function (req, res, next) {
   //hand new tips that are sent
   let tip_message = req.body.tip_message;
@@ -88,6 +114,11 @@ app.post("/total", function (req, res, next) {
     terminalWrite(res, "Request failed. No total score provided.", 400);
     return;
   }
+  if (isNaN(totalScore)) {
+    //400 error!
+    terminalWrite(res, "Request failed. Non-numeric total score provided.", 400);
+    return;
+  }
 
   // no errors move on
   next();
@@ -102,6 +133,8 @@ app.get("/", function (req, res) {
     "POST to /total with home,home2,food,shopping,travel,travel2,travel3." +
     "You will get back a total score";
   message[1] = "GET to /leaderboard to get back the top 5 users and scores";
+  message[2] = "Get to /loadtips to get tip_id, tip_message, tip_likes information";
+  message[3] = "POST to /sendtip and provide tip_message, tip_likes, user_id";
   terminalWrite(res, message, 200);
   return;
 });
@@ -171,7 +204,7 @@ app.post("/sendtip", function (req, res) {
 app.get("/loadtips", function (req, res) {
   // get tips for tipboard
   let sqlTxt =
-    "select tip_message, tip_likes, date_created from tips order by date_created;";
+    "select tip_id, tip_message, tip_likes, date_created from tips order by date_created;";
 
   try {
     let results = connection.query(sqlTxt);
@@ -182,6 +215,25 @@ app.get("/loadtips", function (req, res) {
     terminalWrite(res, "An internal server error has occurred...", 500);
     return;
   }
+});
+
+app.put("/addlike", function (req, res) {
+  // add a like to the tip
+  let tip_likes = req.body.tip_likes;
+  let tip_id = req.body.tip_id;
+  let sqlTxt = `update tips set tip_likes = ${tip_likes} where tip_id = ${tip_id};`;
+
+  try {
+    let results = connection.query(sqlTxt);
+    terminalWrite(res, results, 200);
+    console.log("Someone liked a post");
+    return;
+  } catch (e) {
+    console.log(e);
+    terminalWrite(res, "An internal server error has occurred...", 500);
+    return;
+  }
+
 });
 
 //This piece of code creates the server
