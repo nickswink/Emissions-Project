@@ -2,6 +2,9 @@ body {
   background-color: #27313b;
   font-family: "Eczar", serif;
 }
+p {
+  font-size: 18px;
+}
 label {
   margin-top: 10px;
 }
@@ -62,7 +65,7 @@ label {
 
 #footprint-info p {
   width: 70%;
-  font-size: medium;
+  font-size: 18px;
   height: 200%;
 }
 
@@ -72,7 +75,7 @@ label {
 }
 
 .leaderboard {
-  background-color: #96dbb4;
+  background-color: #1e50f5;
   padding: 20px;
   font-size: 24px;
   border-style: outset;
@@ -81,14 +84,22 @@ label {
 }
 
 #leaderboard li {
+  color: white;
   list-style-type: none;
 }
 
 #leaderboard h2 {
   text-align: center;
 }
+#div-aboutus {
+  text-align: center;
+}
+#div-aboutus h1 {
+  text-align: center;
+}
 
 #div-tips li {
+  list-style-type: none;
   background: #d4d4d4;
   border-radius: 4px;
   border-style: outset;
@@ -101,9 +112,32 @@ label {
 }
 
 .tipbox {
-  background: #70ce75;
+  background: #1e50f5;
+  height: 500px;
   padding: 30px;
   border-style: groove;
+  overflow-y: scroll;
+}
+
+#tip_message {
+  height: 200px;
+  font-size: 14pt;
+}
+
+.tipbox::-webkit-scrollbar {
+  display: none;
+}
+
+.btnLike {
+  margin-left: 20px;
+  background: url(../images/thumbs-up-regular.svg);
+  height: 20px;
+  width: 20px;
+  background-color: white;
+}
+
+.liked {
+  background-color: blue;
 }
 
 .entertip {

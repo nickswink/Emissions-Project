@@ -58,20 +58,16 @@ var getScores = function () {
 // chart loading function
 var getChart = function () {
   let scores = getScores();
-  let travel = scores.travelScore;
-  let home = scores.homeScore;
-  let food = scores.foodScore;
-  let shopping = scores.shoppingScore;
-  let total = scores.totalScore;
+  let { travelScore, homeScore, foodScore, shoppingScore, totalScore } = scores;  //refactor
 
   var object = {
     header: ["Name", "score"],
     rows: [
-      ["Travel", travel],
-      ["Home", home],
-      ["Food", food],
-      ["Shopping", shopping],
-      ["Total", total],
+      ["Travel", travelScore],
+      ["Home", homeScore],
+      ["Food", foodScore],
+      ["Shopping", shoppingScore],
+      ["Total", totalScore],
     ],
   };
   // create the chart
@@ -93,13 +89,9 @@ var loadLeaderboard = function () {
     type: "GET",
     success: function (result) {
       for (let i = 0; i < result.length; i++) {
-        console.log(result[i]);
+        let { display_name, total_score } = result[i];  //refactor  
         $("#leaderboard").append(
-          "<li><i class='fa fa-user'></i>&nbsp&nbsp" +
-            result[i]["display_name"] +
-            " " +
-            result[i]["total_score"] +
-            " points</li><br>"
+          `<li><i class='fa fa-user'></i>&nbsp&nbsp ${display_name} ${total_score} points</li><br>`
         );
       }
     },
@@ -136,8 +128,8 @@ var submitNewTotal = function (display_name, totalScore) {
       $("#message").addClass("alert alert-success");
       $("#message").html(
         "You logged a waste score of " +
-          totalScore +
-          ". Check the breakdown on the dashboard!"
+        totalScore +
+        ". Check the breakdown on the dashboard!"
       );
     },
     error: function (result) {
@@ -185,7 +177,8 @@ var loadTipBoard = function () {
     success: function (result) {
       console.log(result);
       for (let tip = 0; tip < result.length; tip++) {
-        $("#tipboard").append("<li>" + result[tip].tip_message + "</li>");
+        let { tip_message, tip_id, tip_likes } = result[tip];  //refactor method
+        $("#tipboard").append(`<li>${tip_message}<button class='btnLike' id=${tip_id} onClick='addLike(this, ${tip_likes})'></button>${tip_likes}</li>`); // some crazy thing with parents forced me to put the onClick event inside the button tag
       }
     },
     error: function (result) {
@@ -196,37 +189,59 @@ var loadTipBoard = function () {
   });
 };
 
+var addLike = function (likeButton, tip_likes) {
+  $(likeButton).addClass("liked");  // liked turns blue
+
+  let tip_id = $(likeButton).attr("id");
+  let new_likes = tip_likes + 1; // add one like
+  let the_serialized_data = `tip_id=${tip_id}&tip_likes=${new_likes}`;
+
+  $.ajax({
+    url: endpoint02 + "/addlike",
+    data: the_serialized_data,
+    type: "PUT",
+    success: function (result) {
+      console.log(result);
+    },
+    error: function (result) {
+      console.log(result);
+    }
+  });
+};
+
+
 //end of loadLeaderboard
 
 /*																			!!!!	NOT USING THIS FOR TESTING PURPOSES
 var loginController = function(){
-	//go get the data off the login form
-	var the_serialized_data = $('#form-login').serialize();
-	var url = endpoint01;
-	$.getJSON(url,the_serialized_data,function(data){
-		//console.log(data);
-		if (typeof data === 'string'){
-			localStorage.usertoken = 0; // login failed.  Set usertoken to it's initial value.
-			$('#login_message').html(data);
-			$('#login_message').show();
-		} else {
-			$('#login_message').html('');
-			$('#login_message').hide();
-			localStorage.usertoken = data['user_id']; //login succeeded.  Set usertoken.
-			$('.secured').removeClass('locked');
-			$('.secured').addClass('unlocked');
-			$('#div-login').hide();
-			$('#div-splash').show();
-		}
-	});
-	//scroll to top of page
-	$("html, body").animate({ scrollTop: "0px" });
+  //go get the data off the login form
+  var the_serialized_data = $('#form-login').serialize();
+  var url = endpoint01;
+  $.getJSON(url,the_serialized_data,function(data){
+    //console.log(data);
+    if (typeof data === 'string'){
+      localStorage.usertoken = 0; // login failed.  Set usertoken to it's initial value.
+      $('#login_message').html(data);
+      $('#login_message').show();
+    } else {
+      $('#login_message').html('');
+      $('#login_message').hide();
+      localStorage.usertoken = data['user_id']; //login succeeded.  Set usertoken.
+      $('.secured').removeClass('locked');
+      $('.secured').addClass('unlocked');
+      $('#div-login').hide();
+      $('#div-splash').show();
+    }
+  });
+  //scroll to top of page
+  $("html, body").animate({ scrollTop: "0px" });
 };
 // end of loginController
 */
 
 //document ready section
 $(document).ready(function () {
+
   /* ------------------  basic navigation ----------------*/
 
   /* lock all secured content */
@@ -293,7 +308,6 @@ $(document).ready(function () {
   loadLeaderboard();
 
   //END OF JS FOR DIV-SPLASH
-  ////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////
   //START OF JS FOR DIV-CALCULATOR
@@ -316,7 +330,6 @@ $(document).ready(function () {
   /* end the document ready event*/
 
   //END OF JS FOR DIV-CALCULATOR
-  ////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////
   //START OF JS FOR DIV-TIP
@@ -328,4 +341,6 @@ $(document).ready(function () {
   $("#btnTip").click(function () {
     sendTip();
   });
+
+
 }); // closing document tab
