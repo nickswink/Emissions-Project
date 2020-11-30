@@ -233,7 +233,6 @@ app.put("/addlike", function (req, res) {
     terminalWrite(res, "An internal server error has occurred...", 500);
     return;
   }
-
 });
 
 //This piece of code creates the server

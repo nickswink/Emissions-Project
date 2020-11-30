@@ -1,8 +1,8 @@
 "use strict";
 
 /* SOME CONSTANTS */
-var endpoint01 = "http://misdemo.temple.edu/auth"; // Change this to your own login api maybe ???
-var endpoint02 = "http://127.0.0.1:8220"; // api for game requests
+var endpoint01 = "http://misdemo.temple.edu/auth";  // Change this to your own login api maybe ???
+var endpoint02 = "http://127.0.0.1:8220";           // api for game requests
 localStorage.usertoken = 76;
 localStorage.lastnavlink = "";
 

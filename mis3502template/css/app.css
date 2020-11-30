@@ -59,8 +59,12 @@ label {
 
 #footprint-info button {
   background-color: #0c8440;
-  width: 15%;
+  height: 50px;
+  width: 125px;
+  font-size: 24px;
   font-family: "Eczar", serif;
+  color: white;
+  margin-right: 15px;
 }
 
 #footprint-info p {
@@ -75,7 +79,7 @@ label {
 }
 
 .leaderboard {
-  background-color: #1e50f5;
+  background-color: #0c8440;
   padding: 20px;
   font-size: 24px;
   border-style: outset;
@@ -111,21 +115,21 @@ label {
   position: relative;
 }
 
-.tipbox {
-  background: #1e50f5;
-  height: 500px;
-  padding: 30px;
-  border-style: groove;
-  overflow-y: scroll;
-}
+/* .tipbox {
+  
+} */
 
 #tip_message {
   height: 200px;
   font-size: 14pt;
 }
 
-.tipbox::-webkit-scrollbar {
-  display: none;
+#tipboard {
+  background: #a2ff9f;
+  height: 500px;
+  padding: 30px;
+  border-style: groove;
+  overflow-y: scroll;
 }
 
 .btnLike {
