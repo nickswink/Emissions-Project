@@ -58,7 +58,7 @@ var getScores = function () {
 // chart loading function
 var getChart = function () {
   let scores = getScores();
-  let { travelScore, homeScore, foodScore, shoppingScore, totalScore } = scores;  //refactor
+  let { travelScore, homeScore, foodScore, shoppingScore, totalScore } = scores;  //deconstruct
 
   var object = {
     header: ["Name", "score"],
@@ -89,7 +89,7 @@ var loadLeaderboard = function () {
     type: "GET",
     success: function (result) {
       for (let i = 0; i < result.length; i++) {
-        let { display_name, total_score } = result[i];  //refactor  
+        let { display_name, total_score } = result[i];  //deconstruct  
         $("#leaderboard").append(
           `<li><i class='fa fa-user'></i>&nbsp&nbsp ${display_name} ${total_score} points</li><br>`
         );
@@ -118,6 +118,7 @@ var submitNewTotal = function (display_name, totalScore) {
   console.log(the_serialized_data);
 
   $("#message").html("");
+
   // send all the scores to total and receieve back a final score
   $.ajax({
     url: endpoint02 + "/total",
@@ -150,7 +151,7 @@ var sendTip = function () {
 
   if ($("#tip_message").val() == "") {
     $("#tip-message").addClass("alert alert-danger");
-    $("#tip-message").html("Tip message cannot be blank");
+    $("#tip-message").html("Tips can't be blank");
   } else {
     $.ajax({
       url: endpoint02 + "/sendtip",
@@ -159,7 +160,9 @@ var sendTip = function () {
       success: function (result) {
         console.log(result);
         $("#tip-message").addClass("alert alert-success");
-        $("#tip-message").html("Your tip was successfully submitted");
+        $("#tip-message").html("Thanks for that!");
+        $("#btnTip").hide();                                //
+        document.getElementById("btnTip").disabled = true;  //prevent user from sending multiple tips
       },
       error: function (result) {
         console.log(result);
@@ -175,10 +178,9 @@ var loadTipBoard = function () {
     url: endpoint02 + "/loadtips",
     type: "GET",
     success: function (result) {
-      console.log(result);
       for (let tip = 0; tip < result.length; tip++) {
-        let { tip_message, tip_id, tip_likes } = result[tip];  //refactor method
-        $("#tipboard").append(`<li>${tip_message}<button class='btnLike' id=${tip_id} onClick='addLike(this, ${tip_likes})'></button>${tip_likes}</li>`); // some crazy thing with parents forced me to put the onClick event inside the button tag
+        let { tip_message, tip_id, tip_likes } = result[tip];  //deconstruct
+        $("#tipboard").append(`<li>${tip_message}<button class='btnLike' id=${tip_id} onClick='addLike(this, ${tip_likes})'></button><span>${tip_likes}</span></li>`); // some crazy thing with parents forced me to put the onClick event inside the button tag
       }
     },
     error: function (result) {
@@ -190,11 +192,13 @@ var loadTipBoard = function () {
 };
 
 var addLike = function (likeButton, tip_likes) {
-  $(likeButton).addClass("liked");  // liked turns blue
-
   let tip_id = $(likeButton).attr("id");
-  let new_likes = tip_likes + 1; // add one like
+  let new_likes = tip_likes + 1;         // add one like
   let the_serialized_data = `tip_id=${tip_id}&tip_likes=${new_likes}`;
+
+  $(likeButton).addClass("liked");  // liked turns blue
+  $(likeButton).next().html(new_likes);   //displays the tip adding one
+  document.getElementById(tip_id).disabled = true;  //disable button to prevent multiple requests
 
   $.ajax({
     url: endpoint02 + "/addlike",
@@ -209,8 +213,64 @@ var addLike = function (likeButton, tip_likes) {
   });
 };
 
+var getRandomTip = function (phoneNumber) {
 
-//end of loadLeaderboard
+  //error checking
+  if (isNaN(phoneNumber)) {
+    $("#phoneNumberMessage").addClass("alert alert-danger");
+    $("#phoneNumberMessage").html("Phone number must be a number.");
+    return;
+  }
+  if (phoneNumber == '') {
+    $("#phoneNumberMessage").addClass("alert alert-danger");
+    $("#phoneNumberMessage").html("Phone number is blank");
+    return;
+  }
+
+  $.ajax({
+    url: endpoint02 + "/random",
+    type: "GET",
+    success: function (result) {
+      let tip_message = (result[0].tip_message);
+      textFriend(phoneNumber, tip_message);    // called here so that the tip message is received first!!!
+      return;
+    },
+    error: function (result) {
+      console.log(result);
+      return;
+    }
+  });
+};
+
+var textFriend = function (phoneNumber, tip_message) {
+  // get a random tip for the text
+  var the_serialized_data = `message=${tip_message}&phone=${phoneNumber}&key=64ae32fcd02cd89ccdbeeb466bb4ffd82089d3bcuQcxhMzb2VARlDmmc2SYkemyk`;
+
+  $("#phoneNumberMessage").html(''); // clear out the span
+  $("#phoneNumberMessage").removeClass();
+  document.getElementById("textTip").disabled = true; //disable user from sending multiple requests
+
+  // sending the text 
+  $.ajax({
+    url: "https://textbelt.com/text",
+    data: the_serialized_data,
+    type: "POST",
+    success: function (result) {
+      console.log(the_serialized_data);
+      console.log(result);
+      $("#textTip").hide();
+      $("#phoneNumberMessage").addClass("alert alert-success");
+      $("#phoneNumberMessage").html("Thanks for spreading the word!");
+    },
+    error: function (result) {
+      $("#phoneNumberMessage").addClass("alert alert-danger");
+      $("#phoneNumberMessage").html("Not able to make a request to TextBelt API...");
+      console.log(result);
+    }
+  });
+};
+
+
 
 /*																			!!!!	NOT USING THIS FOR TESTING PURPOSES
 var loginController = function(){
@@ -259,6 +319,18 @@ $(document).ready(function () {
     navigationControl(this);
   });
 
+
+  // If button on the splash board is pressed
+  $("#calcRef").click(function () {
+    $(".content-wrapper").hide(); /* hide all content-wrappers */
+    $("#div-calc").show(); /* show the chosen content wrapper */
+    $("html, body").animate({ scrollTop: "0px" }); /* scroll to top of page */
+    $(".navbar-collapse").collapse(
+      "hide"
+    ); /* explicitly collapse the navigation menu */
+  });
+
+
   /* what happens if the login button is clicked? */
   $("#btnLogin").click(function () {
     //loginController();
@@ -274,8 +346,6 @@ $(document).ready(function () {
     // ^^^^^^^^^^^^^^^^^^^^^^^^
   });
 
-  ////////////////////////////////////////////////////////
-  //START OF JS FOR DIV-SPLASH
 
   // Decrease your footprint navigation buttons
 
@@ -307,40 +377,34 @@ $(document).ready(function () {
   // Load leaderboard here
   loadLeaderboard();
 
-  //END OF JS FOR DIV-SPLASH
-
-  ////////////////////////////////////////////////////////
-  //START OF JS FOR DIV-CALCULATOR
+  // load tips for the client
+  loadTipBoard();
 
   // Submit button for calculator
-
   $("#btnCalc").click(function () {
-    // Load information for submission
     let totalScore = getScores().totalScore;
     let display_name = $("#display_name").val();
 
-    //reload chart
-    $("#chart").html("");
+    $("#message").removeClass();
+    if (display_name === '') {
+      $("#message").addClass("alert alert-danger");
+      $("#message").html("Display name required");
+      return;
+    }
+
+    $("#chart").html(""); //reload chart
     getChart();
-
-    // Database operation
-    submitNewTotal(display_name, totalScore);
+    submitNewTotal(display_name, totalScore); // update database
   });
-
-  /* end the document ready event*/
-
-  //END OF JS FOR DIV-CALCULATOR
-
-  ////////////////////////////////////////////////////////
-  //START OF JS FOR DIV-TIP
-
-  // load tips for the client
-  loadTipBoard();
 
   // what happens if you hit the submit tip button
   $("#btnTip").click(function () {
     sendTip();
   });
 
+  $("#textTip").click(function () {
+    let phoneNumber = $("#phoneNumber").val();
+    getRandomTip(phoneNumber);
+  });
 
 }); // closing document tab

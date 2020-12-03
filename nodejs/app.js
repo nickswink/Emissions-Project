@@ -124,6 +124,8 @@ app.post("/total", function (req, res, next) {
   next();
 });
 
+// END OF ERROR TRAPPING
+
 //app event handlers go here
 
 app.get("/", function (req, res) {
@@ -143,7 +145,7 @@ app.get("/leaderboard", function (req, res) {
   //return top 10 users and scores
   try {
     let results = connection.query(
-      "select display_name,total_score from leaderboard order by total_score desc limit 5;"
+      "select display_name,total_score from leaderboard order by total_score asc limit 5;"
     );
     terminalWrite(res, results, 200);
     return;
@@ -153,6 +155,21 @@ app.get("/leaderboard", function (req, res) {
     return;
   }
 });
+
+app.get("/random", function (req, res) {
+  // get a random tip for the texting request
+  let sqlTxt = "SELECT tip_message FROM tips ORDER BY RAND() LIMIT 1";
+  try {
+    let results = connection.query(sqlTxt);
+    terminalWrite(res, results, 200);
+    return;
+  } catch (e) {
+    console.log(e);
+    terminalWrite(res, "An internal server error has occurred...", 500);
+    return;
+  }
+});
+
 
 app.post("/total", function (req, res) {
   // handle post requests to total route
@@ -166,7 +183,8 @@ app.post("/total", function (req, res) {
     let sqlTxtInsert =
       "insert into leaderboard (user_id,display_name,total_score) values (?, ?, ?);";
     //Delete current record and insert new one every time
-    var x = connection.query(sqlTxtDelete, [user_id]);
+    connection.query(sqlTxtDelete, [user_id]);
+
     var results = connection.query(sqlTxtInsert, [
       user_id,
       display_name,
@@ -234,6 +252,9 @@ app.put("/addlike", function (req, res) {
     return;
   }
 });
+
+
+
 
 //This piece of code creates the server
 //and listens for a request on a port

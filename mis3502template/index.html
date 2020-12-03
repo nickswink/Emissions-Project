@@ -180,8 +180,8 @@
                   <br />
                   <p>
                     Fill out
-                    <a class="nav-link" href="#div-calc">calculator</a> to see
-                    your waste break down here...
+                    <button type="button" id="calcRef">calculator</button> to
+                    see your waste break down here...
                   </p>
                 </div>
               </div>
@@ -313,7 +313,6 @@
                 <img
                   src="./images/carbon-footprint-green.jpg"
                   alt="carbon image"
-                  style="height: 50%; width: 50%"
                 />
               </div>
               <div class="col-md-6">
@@ -477,6 +476,27 @@
               </button>
               <br /><br />
               <span id="tip-message"></span>
+
+              <br />
+              <br />
+
+              <label for="phoneNumber">Enter a friends phone number: </label>
+              <input
+                id="phoneNumber"
+                type="text"
+                placeholder="e.g. XXXXXXXXXX"
+              />
+
+              <label for="textTip"
+                >One small step makes a difference in our world. Text a tip to a
+                friend!</label
+              >
+              <button class="btn btn-primary" type="button" id="textTip">
+                Send a tip
+              </button>
+              <br />
+              <br />
+              <span id="phoneNumberMessage"></span>
             </div>
           </div>
         </div>
