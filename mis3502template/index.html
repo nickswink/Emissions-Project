@@ -41,11 +41,11 @@
   <body>
     <!-- Top Navigation Bar -->
 
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top">
       <!-- Logo -->
       <a class="navbar-brand nav-link" href="#div-splash" id="btnSplash">
         <img alt="Earth Icon" src="images/earth.png" style="width: 40px" />
-        &nbsp;&nbsp;Carbon Co
+        &nbsp;&nbsp;Eco Friendly Org
       </a>
 
       <!-- Toggler Icon for responsiveness -->
@@ -175,6 +175,7 @@
 
               <div class="col-md-5" id="footprint-graph">
                 <h2>View your footprint</h2>
+                <h4>The lower, the better</h4>
                 <div id="chart">
                   <!--THIS WILL BE OVERWRITTEN WITH THE CHART-->
                   <br />
@@ -182,6 +183,9 @@
                     Fill out
                     <button type="button" id="calcRef">calculator</button> to
                     see your waste break down here...
+                    <br />
+                    <br />
+                    <img src="./images/calculator.png" alt="calculator" />
                   </p>
                 </div>
               </div>
@@ -283,7 +287,7 @@
                 <div class="row">
                   <section class="leaderboard-section">
                     <div class="leaderboard" id="leaderboard">
-                      <!--leader board will populate here-->
+                      <!--leaderboard will populate here-->
                     </div>
                   </section>
                   <span id="leaderboard-error"></span>
@@ -294,28 +298,25 @@
             <!-- room for the chart -->
           </div>
         </div>
-
         <div
-          class="col-md-8 content-wrapper"
+          class="col-md-10 content-wrapper"
           id="div-aboutus"
           style="display: none"
         >
           <div class="container-fluid">
-            <div class="row">
-              <h1>ABOUT US</h1>
-              <p></p>
-            </div>
+            <div class="row"></div>
             <br />
 
             <!--    Paragraphs 2 side-by-side columns   -->
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-5">
                 <img
                   src="./images/carbon-footprint-green.jpg"
                   alt="carbon image"
                 />
               </div>
               <div class="col-md-6">
+                <h1>ABOUT US</h1>
                 <p>
                   Plenty of our daily activities like driving a car, using
                   electricity, or shopping cause greenhouse gas emissions. The
@@ -326,8 +327,7 @@
                   world! The calculator estimates your carbon impact in home
                   energy, food consumption, shopping, and travel.
                 </p>
-              </div>
-              <div class="col-md-6">
+                <br />
                 <p>
                   Everyone has a different carbon footprint depending on their
                   lifestyles, location, and personal choices.
@@ -347,6 +347,7 @@
           style="display: none"
         >
           <div>
+            <h1>What's your score?</h1>
             <form id="calculator">
               <label for="display_name">Enter a display name: </label>
               <input type="text" id="display_name" />

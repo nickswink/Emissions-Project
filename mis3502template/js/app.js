@@ -2,8 +2,8 @@
 
 /* SOME CONSTANTS */
 var endpoint01 = "http://misdemo.temple.edu/auth";  // Change this to your own login api maybe ???
-var endpoint02 = "http://127.0.0.1:8220";           // api for game requests
-localStorage.usertoken = 76;
+var endpoint02 = "http://18.211.85.199:8220";      // api for game requests
+localStorage.usertoken = 0;
 localStorage.lastnavlink = "";
 
 /* SUPPORTING FUNCTIONS */
@@ -98,9 +98,7 @@ var loadLeaderboard = function () {
     error: function (result) {
       console.log(result);
       $("#leaderboard-error").addClass("alert alert-danger");
-      $("#leaderboard-error").html(
-        result.status + "" + result.statusText + "" + result.responseText
-      );
+      $("#leaderboard-error").html("Hmm... Something went wrong. Check to see if the API is running");
     },
   });
 };
@@ -136,9 +134,7 @@ var submitNewTotal = function (display_name, totalScore) {
     error: function (result) {
       //console.log(result);
       $("#message").addClass("alert alert-danger");
-      $("#message").html(
-        result.status + "" + result.statusText + "" + result.responseText
-      );
+      $("#message").html("Hmm... Something went wrong. Check to see if the API is running");
     },
   });
 };
@@ -218,12 +214,12 @@ var getRandomTip = function (phoneNumber) {
   //error checking
   if (isNaN(phoneNumber)) {
     $("#phoneNumberMessage").addClass("alert alert-danger");
-    $("#phoneNumberMessage").html("Phone number must be a number.");
+    $("#phoneNumberMessage").html("Invalid phone number");
     return;
   }
   if (phoneNumber == '') {
     $("#phoneNumberMessage").addClass("alert alert-danger");
-    $("#phoneNumberMessage").html("Phone number is blank");
+    $("#phoneNumberMessage").html("Phone number can't be blank");
     return;
   }
 
@@ -233,11 +229,11 @@ var getRandomTip = function (phoneNumber) {
     success: function (result) {
       let tip_message = (result[0].tip_message);
       textFriend(phoneNumber, tip_message);    // called here so that the tip message is received first!!!
-      return;
     },
     error: function (result) {
+      $("#phoneNumberMessage").addClass("alert alert-danger");
+      $("#phoneNumberMessage").html("Hmm... Something went wrong. Check to see if the API is running");
       console.log(result);
-      return;
     }
   });
 };
@@ -272,14 +268,13 @@ var textFriend = function (phoneNumber, tip_message) {
 
 
 
-/*																			!!!!	NOT USING THIS FOR TESTING PURPOSES
-var loginController = function(){
+var loginController = function () {
   //go get the data off the login form
   var the_serialized_data = $('#form-login').serialize();
   var url = endpoint01;
-  $.getJSON(url,the_serialized_data,function(data){
+  $.getJSON(url, the_serialized_data, function (data) {
     //console.log(data);
-    if (typeof data === 'string'){
+    if (typeof data === 'string') {
       localStorage.usertoken = 0; // login failed.  Set usertoken to it's initial value.
       $('#login_message').html(data);
       $('#login_message').show();
@@ -290,6 +285,7 @@ var loginController = function(){
       $('.secured').removeClass('locked');
       $('.secured').addClass('unlocked');
       $('#div-login').hide();
+      $("#div-loginSideBar").hide();
       $('#div-splash').show();
     }
   });
@@ -297,7 +293,7 @@ var loginController = function(){
   $("html, body").animate({ scrollTop: "0px" });
 };
 // end of loginController
-*/
+
 
 //document ready section
 $(document).ready(function () {
@@ -333,17 +329,7 @@ $(document).ready(function () {
 
   /* what happens if the login button is clicked? */
   $("#btnLogin").click(function () {
-    //loginController();
-
-    // vvvvvvvvvvvvvvvvvvvvvv
-    $("#login_message").html("");
-    $("#login_message").hide();
-    $(".secured").removeClass("locked");
-    $(".secured").addClass("unlocked"); //TEMPORARY AUTO LOGIN BLOCK
-    $("#div-login").hide();
-    $("#div-loginSideBar").hide();
-    $("#div-splash").show();
-    // ^^^^^^^^^^^^^^^^^^^^^^^^
+    loginController();
   });
 
 

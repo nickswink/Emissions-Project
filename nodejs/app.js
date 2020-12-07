@@ -2,7 +2,6 @@
 var express = require("express"); //import express, because I want easier management of get and post requests.
 var bodyParser = require("body-parser"); //import body-parser, because I can't manage post data without it..
 var MySql = require("sync-mysql"); //sync-mysql is used to create a synchronous database connection
-const { type } = require("os");
 
 //Database Connectivity
 const options = {
@@ -252,8 +251,6 @@ app.put("/addlike", function (req, res) {
     return;
   }
 });
-
-
 
 
 //This piece of code creates the server
