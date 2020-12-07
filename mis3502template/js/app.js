@@ -1,8 +1,8 @@
 "use strict";
 
 /* SOME CONSTANTS */
-var endpoint01 = "http://misdemo.temple.edu/auth";  // Change this to your own login api maybe ???
-var endpoint02 = "http://18.211.85.199:8220";      // api for game requests
+var endpoint01 = "http://misdemo.temple.edu/auth";
+var endpoint02 = "http://18.211.85.199:8220";
 localStorage.usertoken = 0;
 localStorage.lastnavlink = "";
 
@@ -13,7 +13,7 @@ var navigationControl = function (the_link) {
   var idToShow = $(the_link).attr("href");
   localStorage.lastnavlink = idToShow;
 
-  console.log(idToShow);
+  // console.log(idToShow);
 
   if (idToShow == "#div-login") {
     /* what happens if the login/logout link is clicked? */
@@ -113,7 +113,7 @@ var submitNewTotal = function (display_name, totalScore) {
     "&totalScore=" +
     totalScore;
 
-  console.log(the_serialized_data);
+  // console.log(the_serialized_data);
 
   $("#message").html("");
 
@@ -123,7 +123,7 @@ var submitNewTotal = function (display_name, totalScore) {
     data: the_serialized_data,
     type: "POST",
     success: function (result) {
-      console.log(result);
+      // console.log(result);
       $("#message").addClass("alert alert-success");
       $("#message").html(
         "You logged a waste score of " +
@@ -132,7 +132,7 @@ var submitNewTotal = function (display_name, totalScore) {
       );
     },
     error: function (result) {
-      //console.log(result);
+      console.log(result);
       $("#message").addClass("alert alert-danger");
       $("#message").html("Hmm... Something went wrong. Check to see if the API is running");
     },
@@ -143,7 +143,7 @@ var sendTip = function () {
   // send tip to database with user specific id
   let the_serialized_data =
     $("#tip-form").serialize() + "&userid=" + localStorage.usertoken;
-  console.log(the_serialized_data);
+  // console.log(the_serialized_data);
 
   if ($("#tip_message").val() == "") {
     $("#tip-message").addClass("alert alert-danger");
@@ -154,7 +154,7 @@ var sendTip = function () {
       data: the_serialized_data,
       type: "POST",
       success: function (result) {
-        console.log(result);
+        // console.log(result);
         $("#tip-message").addClass("alert alert-success");
         $("#tip-message").html("Thanks for that!");
         $("#btnTip").hide();                                //
@@ -182,7 +182,7 @@ var loadTipBoard = function () {
     error: function (result) {
       console.log(result);
       $("#tipboard").addClass("alert alert-danger");
-      $("#tipboard").html("An error occurred...");
+      $("#tipboard").html("Hmm... Something went wrong. Check to see if the API is running");
     },
   });
 };
@@ -240,7 +240,7 @@ var getRandomTip = function (phoneNumber) {
 
 var textFriend = function (phoneNumber, tip_message) {
   // get a random tip for the text
-  var the_serialized_data = `message=${tip_message}&phone=${phoneNumber}&key=64ae32fcd02cd89ccdbeeb466bb4ffd82089d3bcuQcxhMzb2VARlDmmc2SYkemyk`;
+  var the_serialized_data = `message=Environmental Tip Of the Day: ${tip_message}&phone=${phoneNumber}&key=64ae32fcd02cd89ccdbeeb466bb4ffd82089d3bcuQcxhMzb2VARlDmmc2SYkemyk`;  //thank u prof Shafer!
 
   $("#phoneNumberMessage").html(''); // clear out the span
   $("#phoneNumberMessage").removeClass();
@@ -252,8 +252,8 @@ var textFriend = function (phoneNumber, tip_message) {
     data: the_serialized_data,
     type: "POST",
     success: function (result) {
-      console.log(the_serialized_data);
-      console.log(result);
+      // console.log(the_serialized_data);
+      // console.log(result);
       $("#textTip").hide();
       $("#phoneNumberMessage").addClass("alert alert-success");
       $("#phoneNumberMessage").html("Thanks for spreading the word!");
